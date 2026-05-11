@@ -1,0 +1,121 @@
+[gd_scene format=3 uid="uid://knw0j0kpj4ot"]
+
+[ext_resource type="Script" uid="uid://bx5j2bptamdn6" path="res://scenes/main_menu.gd" id="1_8ln24"]
+[ext_resource type="Texture2D" uid="uid://38ntq0gxqs1j" path="res://assets/white.png" id="1_ekxnf"]
+[ext_resource type="Texture2D" uid="uid://dyih7xm500xtw" path="res://assets/icon.png" id="2_bqqt6"]
+[ext_resource type="Texture2D" uid="uid://wh474lj50cqr" path="res://assets/mobile-controls-1/Vector/Icons/icon_cog.svg" id="3_wu84c"]
+[ext_resource type="Texture2D" uid="uid://b7yhh1sny7oj1" path="res://assets/mobile-controls-1/Vector/Icons/icon_cross.svg" id="4_8ln24"]
+
+[sub_resource type="Curve" id="Curve_wu84c"]
+_limits = [-360.0, 360.0, 0.0, 1.0]
+_data = [Vector2(0, 360), 0.0, 0.0, 0, 0, Vector2(0.39512193, 360), 0.0, 0.0, 0, 0, Vector2(0.6536585, 93.03375), 0.0, 0.0, 0, 0, Vector2(0.98536587, -319.55054), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_8ln24"]
+_data = [Vector2(0.05853659, 0.57303375), 0.0, 0.0, 0, 0, Vector2(0.48292685, 0.42696637), 0.0, 0.0, 0, 0, Vector2(0.75609756, 0.28089893), 0.0, 0.0, 0, 0, Vector2(1, 0.033707857), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_oa1go"]
+load_path = "res://.godot/imported/icon_play.svg-18fc100767b1eb5acc1a14d6e6314fcb.ctex"
+
+[node name="MainMenu" type="Node2D" unique_id=1625120607]
+script = ExtResource("1_8ln24")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=879768771]
+
+[node name="Panel" type="Panel" parent="CanvasLayer" unique_id=2111494603]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="CanvasLayer" unique_id=689779166]
+position = Vector2(570, 303)
+amount = 15
+texture = ExtResource("1_ekxnf")
+randomness = 0.5
+spread = 180.0
+gravity = Vector2(0, -500)
+initial_velocity_min = 357.8
+initial_velocity_max = 357.8
+angular_velocity_min = 0.5
+angular_velocity_max = 1.0
+angular_velocity_curve = SubResource("Curve_wu84c")
+linear_accel_min = 10.0
+linear_accel_max = 34.86
+scale_amount_max = 2.8
+scale_amount_curve = SubResource("Curve_8ln24")
+color = Color(0.9626269, 0.13410315, 0, 0.5058824)
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="CanvasLayer" unique_id=496148147]
+position = Vector2(570, 303)
+amount = 15
+texture = ExtResource("1_ekxnf")
+randomness = 0.5
+spread = 180.0
+gravity = Vector2(0, -500)
+initial_velocity_min = 357.8
+initial_velocity_max = 357.8
+angular_velocity_min = 0.5
+angular_velocity_max = 1.0
+angular_velocity_curve = SubResource("Curve_wu84c")
+linear_accel_min = 10.0
+linear_accel_max = 34.86
+scale_amount_max = 2.8
+scale_amount_curve = SubResource("Curve_8ln24")
+color = Color(1, 0.5254902, 0.12156863, 0.5058824)
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=463425595]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -338.5
+offset_top = -184.5
+offset_right = 338.5
+offset_bottom = 184.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bqqt6")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=983343323]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -178.99997
+offset_top = -112.0
+offset_right = 89.0
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1.4450479, 1.5655303)
+theme_override_constants/separation = 50
+
+[node name="PlayBtn" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=125607135]
+layout_mode = 2
+theme_override_colors/icon_normal_color = Color(0.16504744, 0.75950766, 0.22392434, 1)
+button_mask = 5
+icon = SubResource("CompressedTexture2D_oa1go")
+flat = true
+
+[node name="settingsBtn" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=958870897]
+layout_mode = 2
+theme_override_colors/icon_normal_color = Color(0, 0.334155, 0.8473289, 1)
+icon = ExtResource("3_wu84c")
+flat = true
+
+[node name="QuitBtn" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=1267136356]
+layout_mode = 2
+theme_override_colors/icon_normal_color = Color(0.65287435, 0.07136627, 0, 1)
+icon = ExtResource("4_8ln24")
+flat = true
+
+[connection signal="pressed" from="CanvasLayer/HBoxContainer/PlayBtn" to="." method="_on_play_btn_pressed"]
+[connection signal="pressed" from="CanvasLayer/HBoxContainer/settingsBtn" to="." method="_on_settings_btn_pressed"]
+[connection signal="pressed" from="CanvasLayer/HBoxContainer/QuitBtn" to="." method="_on_quit_btn_pressed"]
