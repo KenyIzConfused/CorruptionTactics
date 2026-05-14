@@ -1,39 +1,92 @@
 extends CharacterBody2D
 
-
-const SPEED = 200.0
-const JUMP_VELOCITY = -300.0
+const SPEED = 400.0
+const JUMP_VELOCITY = -500.0
+const SWING_FORCE = 600.0
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
+var combo_count = 0
+var attack_requested = false
+var is_hit = false
+var health = 10
+
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
+	if health <= 0:
+		return
+
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	if Input.is_action_just_pressed("jump") and is_on_floor() and not is_hit:
 		velocity.y = JUMP_VELOCITY
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
 	
 	var direction := Input.get_axis("left", "right")
-	if direction > 0:
-		animated_sprite_2d.flip_h = false
-	if direction < 0:
-		animated_sprite_2d.flip_h = true
 	
-	if is_on_floor():
-		if direction == 0:
-			animated_sprite_2d.play("Idle_Animation")
+	if is_hit and not animated_sprite_2d.is_playing():
+		is_hit = false
+
+	if Input.is_action_just_pressed("attack") and not is_hit:
+		attack_requested = true
+
+	if attack_requested and not is_hit:
+		if combo_count == 0:
+			animated_sprite_2d.play("attack_1")
+			combo_count = 1
+			attack_requested = false
+			velocity.x = SWING_FORCE if not animated_sprite_2d.flip_h else -SWING_FORCE
+		elif combo_count == 1 and animated_sprite_2d.frame > 1:
+			animated_sprite_2d.play("attack_2")
+			combo_count = 2
+			attack_requested = false
+			velocity.x = SWING_FORCE if not animated_sprite_2d.flip_h else -SWING_FORCE
+
+	var is_attacking = animated_sprite_2d.animation == "attack_1" or animated_sprite_2d.animation == "attack_2"
+
+	if is_hit:
+		animated_sprite_2d.play("take_hit")
+		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
+	elif not animated_sprite_2d.is_playing() or not is_attacking:
+		combo_count = 0
+		if direction > 0:
+			animated_sprite_2d.flip_h = false
+		if direction < 0:
+			animated_sprite_2d.flip_h = true
+			
+		if is_on_floor():
+			if direction == 0:
+				animated_sprite_2d.play("Idle_Animation")
+			else: 
+				animated_sprite_2d.play("Run_Animation")
 		else: 
-			animated_sprite_2d.play("Run_Animation")
-	else: 
-		animated_sprite_2d.play("Jump_animation")
-	
-	if direction:
-		velocity.x = direction * SPEED
+			if velocity.y > 0:
+				animated_sprite_2d.play("fall_animation")
+			else:
+				animated_sprite_2d.play("Jump_animation")
+		
+		if direction:
+			velocity.x = direction * SPEED
+		else:
+			velocity.x = move_toward(velocity.x, 0, SPEED)
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, 15.0)
 
 	move_and_slide()
+
+func hit():
+	if health <= 0:
+		return
+		
+	health -= 1
+	is_hit = true
+	combo_count = 0
+	attack_requested = false
+	
+	if health <= 0:
+		die()
+	else:
+		animated_sprite_2d.play("take_hit")
+
+func die():
+	animated_sprite_2d.play("death_animation")
+	set_physics_process(false)
