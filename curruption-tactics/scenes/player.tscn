@@ -164,6 +164,7 @@ animations = [{
 size = Vector2(16, 45)
 
 [node name="Player" type="CharacterBody2D" unique_id=1360157231]
+scale = Vector2(3, 3)
 collision_layer = 2
 script = ExtResource("1_qlg0r")
 
