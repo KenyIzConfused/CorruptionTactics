@@ -1,26 +1,27 @@
-extends Node2D
+extends CharacterBody2D
 
-# Set this to 1 in Stage 1 and 2 in Battleground 2 via the Inspector
-@export var level_id: int = 1
-# Optional: Only use if you want to override the lines provided below
-@export_multiline var my_dialogue: Array[String] = []
+var is_walking_away: bool = false
+var walk_speed: float = 120.0
+@onready var sprite = get_node_or_null("AnimatedSprite2D")
 
-@onready var anim = $AnimatedSprite2D
-var is_walking: bool = false
+func _physics_process(_delta):
+	if is_walking_away:
+		# NPCs move right
+		velocity = Vector2.RIGHT * walk_speed
+		
+		if sprite:
+			# Explicitly using walk_animation as you instructed
+			if sprite.sprite_frames.has_animation("walk_animation"):
+				sprite.play("walk_animation")
+			sprite.flip_h = false 
+			
+		move_and_slide()
 
-func _process(delta):
-	if is_walking:
-		position.x += 100 * delta 
-		if anim and anim.animation != "walk":
-			anim.play("walk")
-
-# Make sure your InteractionZone (Area2D) signal 'body_entered' is connected to this
-func _on_interaction_zone_body_entered(body):
-	if body.is_in_group("player"):
-		var ui = get_tree().root.find_child("DialogueUI", true, false)
-		if ui:
-			# Passes the Level ID so the UI knows which hardcoded lines to use
-			ui.start_dialogue(body, self, level_id, my_dialogue)
-
+# This is called at the end of the Stage 2 dialogue
 func walk_away():
-	is_walking = true
+	is_walking_away = true
+	get_tree().paused = false 
+	
+	# Self-destruct after leaving the area
+	await get_tree().create_timer(4.0).timeout
+	queue_free()

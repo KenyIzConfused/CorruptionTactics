@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b7xuyth2yldtj"]
 
 [ext_resource type="Texture2D" uid="uid://ceprflbivawa7" path="res://characters/CROC.png" id="1_tn375"]
+[ext_resource type="Script" uid="uid://c5p7fw16lsf8b" path="res://scenes/croc.gd" id="1_txc13"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_keypi"]
 atlas = ExtResource("1_tn375")
@@ -65,7 +66,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_c7sqw")
 }],
-"loop": true,
+"loop": false,
 "name": &"Idle_animation",
 "speed": 3.0
 }, {
@@ -82,7 +83,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_sjanw")
 }],
-"loop": true,
+"loop": false,
 "name": &"Run_Animation",
 "speed": 5.0
 }, {
@@ -99,18 +100,19 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_o6ovy")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_animation",
 "speed": 5.0
 }]
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1933444622]
+script = ExtResource("1_txc13")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1362373652]
-position = Vector2(-1, -15)
-scale = Vector2(1.5886922, 1.6328809)
+position = Vector2(0, -41)
+scale = Vector2(5, 5.138)
 sprite_frames = SubResource("SpriteFrames_1ogoj")
-animation = &"Run_Animation"
+animation = &"attack_animation"
 autoplay = "Idle_animation"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1066269110]

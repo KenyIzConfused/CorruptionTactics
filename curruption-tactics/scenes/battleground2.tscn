@@ -9,6 +9,8 @@
 [ext_resource type="AudioStream" uid="uid://bqpaskhtkmgr5" path="res://Music/Blades_in_the_Grass.mp3" id="6_ctdtf"]
 [ext_resource type="PackedScene" uid="uid://dl8va2yaoujnd" path="res://scenes/npc.tscn" id="7_31osd"]
 [ext_resource type="PackedScene" uid="uid://dwhwocatc1cmg" path="res://scenes/dialogue_ui.tscn" id="9_4s2u1"]
+[ext_resource type="PackedScene" uid="uid://7olcrk7vkl4q" path="res://scenes/spawner.tscn" id="10_4s2u1"]
+[ext_resource type="PackedScene" uid="uid://b7xuyth2yldtj" path="res://scenes/Croc.tscn" id="11_v0jex"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_walpe"]
 texture = ExtResource("2_b7brf")
@@ -566,3 +568,7 @@ limit_enabled = false
 
 [node name="NPC" parent="." unique_id=1007625555 instance=ExtResource("7_31osd")]
 position = Vector2(855, 529)
+
+[node name="Spawner" parent="." unique_id=1511384262 instance=ExtResource("10_4s2u1")]
+position = Vector2(-229, 479)
+enemy_scene = ExtResource("11_v0jex")

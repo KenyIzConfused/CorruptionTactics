@@ -369,7 +369,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_abqhh"]
 radius = 91.0
 
-[node name="NPC" type="CharacterBody2D" unique_id=1007625555]
+[node name="NPC" type="CharacterBody2D" unique_id=1580635051]
 scale = Vector2(2, 2)
 script = ExtResource("1_rv78h")
 
@@ -387,5 +387,3 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionZone" unique_id=743616983]
 position = Vector2(-2, -94)
 shape = SubResource("CircleShape2D_abqhh")
-
-[connection signal="body_entered" from="InteractionZone" to="." method="_on_interaction_zone_body_entered"]

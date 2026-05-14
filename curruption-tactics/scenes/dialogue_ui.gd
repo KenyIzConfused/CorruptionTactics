@@ -25,29 +25,27 @@ var current_lines: Array[String] = []
 var index: int = 0
 var player_ref = null
 var npc_ref = null
-var current_level_id: int = 1
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	layer = 100
 	hide()
-	if next_stage_btn:
-		next_stage_btn.hide()
+	if next_stage_btn: next_stage_btn.hide()
 
-func start_dialogue(player, npc, level_id: int, npc_inspector_lines: Array[String]):
+func start_dialogue(player, npc, npc_inspector_lines: Array[String]):
 	player_ref = player
 	npc_ref = npc
-	current_level_id = level_id
 	index = 0
 	
-	# If NPC has lines in Inspector, use those. Otherwise, check Level ID.
+	# Checks the file path to see if we are in battleground2
+	var path = get_tree().current_scene.scene_file_path.to_lower()
+	
 	if npc_inspector_lines.size() > 0:
 		current_lines = npc_inspector_lines
+	elif "battleground2" in path:
+		current_lines = stage_2_lines
 	else:
-		if current_level_id == 2:
-			current_lines = stage_2_lines
-		else:
-			current_lines = stage_1_lines
+		current_lines = stage_1_lines
 	
 	if text_label and current_lines.size() > 0:
 		text_label.text = current_lines[index]
@@ -61,19 +59,15 @@ func start_dialogue(player, npc, level_id: int, npc_inspector_lines: Array[Strin
 func _on_next_button_pressed():
 	index += 1
 	if index < current_lines.size():
-		if text_label:
-			text_label.text = current_lines[index]
+		if text_label: text_label.text = current_lines[index]
 	else:
 		hide()
 		get_tree().paused = false
-		if player_ref:
-			player_ref.is_talking = false
-		if npc_ref and npc_ref.has_method("walk_away"):
-			npc_ref.walk_away()
-			
+		if player_ref: player_ref.is_talking = false
+		if npc_ref and npc_ref.has_method("walk_away"): npc_ref.walk_away()
+		
 		var spawner = get_tree().root.find_child("Spawner", true, false)
-		if spawner:
-			spawner.start_spawning()
+		if spawner: spawner.start_spawning()
 
 func show_next_stage_button():
 	show()
@@ -81,16 +75,16 @@ func show_next_stage_button():
 	if next_button: next_button.hide() 
 	if next_stage_btn: next_stage_btn.show()
 	
-	if current_level_id == 2:
-		if text_label: text_label.text = "Victory! The Crocs are gone. Proceed to the Final Level?"
+	var path = get_tree().current_scene.scene_file_path.to_lower()
+	if "battleground2" in path:
+		text_label.text = "Victory! Proceed to the Final Level?"
 	else:
-		if text_label: text_label.text = "Area Clear! Go to Battleground 2?"
+		text_label.text = "Area Clear! Go to Battleground 2?"
 
 func _on_next_stage_button_pressed():
 	get_tree().paused = false 
-	if current_level_id == 2:
-		# Path to your final level
+	var path = get_tree().current_scene.scene_file_path.to_lower()
+	if "battleground2" in path:
 		get_tree().change_scene_to_file("res://scenes/final_level.tscn")
 	else:
-		# Path to your second level
 		get_tree().change_scene_to_file("res://scenes/battleground2.tscn")
