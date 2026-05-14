@@ -84,10 +84,11 @@ animations = [{
 "speed": 3.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_j740r"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4a8uq"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1121691805]
 scale = Vector2(5, 5)
+collision_layer = 2
 script = ExtResource("1_4a8uq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1516217349]
@@ -98,5 +99,5 @@ animation = &"attack_animation"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1151054119]
 position = Vector2(-0.8, -10.000001)
-scale = Vector2(0.5849435, 1.0128425)
-shape = SubResource("CircleShape2D_j740r")
+scale = Vector2(0.3953941, 0.65976787)
+shape = SubResource("CapsuleShape2D_4a8uq")

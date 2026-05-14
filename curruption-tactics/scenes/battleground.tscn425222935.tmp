@@ -8,7 +8,6 @@
 [ext_resource type="AudioStream" uid="uid://dx6cieyxnxlxr" path="res://Music/Steel_and_Spice.mp3" id="6_vnb4m"]
 [ext_resource type="Script" uid="uid://b00k2loypq1p1" path="res://scenes/spawner.gd" id="7_5t2ls"]
 [ext_resource type="PackedScene" uid="uid://hb1qu6qnob5f" path="res://scenes/pig.tscn" id="8_walpe"]
-[ext_resource type="Script" uid="uid://5qbne7tmr272" path="res://scenes/death_ui.gd" id="9_60gfh"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_walpe"]
 texture = ExtResource("1_v55xa")
@@ -530,13 +529,13 @@ y_sort_enabled = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -195.00002
-offset_top = -155.00002
-offset_right = 1064.0
-offset_bottom = 378.0
+offset_left = -171.0
+offset_top = 71.0
+offset_right = 1088.0
+offset_bottom = 604.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.0399281, 1.4649757)
+scale = Vector2(1, 1.0294024)
 texture = ExtResource("1_vnb4m")
 expand_mode = 1
 
@@ -559,45 +558,12 @@ position = Vector2(415, 302)
 scale = Vector2(0.1945677, 0.37707293)
 limit_enabled = false
 
-[node name="EnemySpawner" type="Node2D" parent="." unique_id=1101751248 groups=["player", "spawner"]]
+[node name="EnemySpawner" type="Node2D" parent="." unique_id=1101751248]
 script = ExtResource("7_5t2ls")
 enemy_scene = ExtResource("8_walpe")
 
 [node name="LeftSpawn" type="Marker2D" parent="EnemySpawner" unique_id=572370211]
-position = Vector2(1141, 544)
+position = Vector2(1135, 552)
 
 [node name="RightSpawn" type="Marker2D" parent="EnemySpawner" unique_id=45054126]
-position = Vector2(-264, 545)
-
-[node name="DeathUI" type="CanvasLayer" parent="." unique_id=260048015]
-process_mode = 3
-layer = 10
-script = ExtResource("9_60gfh")
-
-[node name="ColorRect" type="ColorRect" parent="DeathUI" unique_id=392878514]
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(575.19794, 11.422901)
-color = Color(0.5019608, 0, 0.19607843, 1)
-
-[node name="Button" type="Button" parent="DeathUI" unique_id=824200141]
-offset_left = 498.0
-offset_top = 295.0
-offset_right = 573.0
-offset_bottom = 326.0
-scale = Vector2(3.551002, 4.182833)
-text = "RESTART"
-
-[node name="Label" type="Label" parent="DeathUI" unique_id=1309414846]
-offset_left = 356.99988
-offset_top = 25.0
-offset_right = 432.99988
-offset_bottom = 48.0
-scale = Vector2(7.326703, 11.425819)
-text = "YOU DIED"
-
-[connection signal="pressed" from="DeathUI/Button" to="DeathUI" method="_on_restart_button_pressed"]
+position = Vector2(-243, 548)
