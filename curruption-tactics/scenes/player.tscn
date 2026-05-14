@@ -308,6 +308,6 @@ autoplay = "Idle_Animation"
 position = Vector2(3, 7.5)
 shape = SubResource("RectangleShape2D_dqkch")
 
-[node name="AttackRay" type="RayCast2D" parent="." unique_id=1575601721]
+[node name="AttackRay" type="RayCast2D" parent="." unique_id=1575601721 groups=["player"]]
 target_position = Vector2(50, 0)
 collision_mask = 3

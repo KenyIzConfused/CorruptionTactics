@@ -1,60 +1,54 @@
 extends Node2D
 
-@export var enemy_scene: PackedScene
-@onready var left_spawn = $LeftSpawn
-@onready var right_spawn = $RightSpawn
+@export var enemy_scene: PackedScene 
+@onready var timer = $Timer
 
-var current_enemies = 0
-var total_spawned_this_round = 0
-var current_round = 1
-var max_rounds = 10
-var enemies_per_round = 15
-var max_on_screen = 6
+var active = false
+var spawn_count = 0
+var max_spawns = 1 # Rounds limit
 
 func _ready():
-	# Create a timer so we don't use infinite await loops
-	var timer = Timer.new()
-	timer.wait_time = 2.0
-	timer.autostart = true
-	timer.name = "SpawnTimer"
-	add_child(timer)
-	timer.timeout.connect(_on_timer_timeout)
+	if timer:
+		timer.stop()
+		timer.wait_time = 2.0
+		# Automatically connect the timer signal if not done in editor
+		if not timer.timeout.is_connected(_on_timer_timeout):
+			timer.timeout.connect(_on_timer_timeout)
+	else:
+		print("ERROR: Spawner node is missing a child Timer node!")
 
-func _on_timer_timeout():
-	if current_round > max_rounds:
-		return
-	
-	# Check limits: Not more than 6 on screen AND haven't hit round total
-	if current_enemies < max_on_screen and total_spawned_this_round < enemies_per_round:
+func start_spawning():
+	active = true
+	spawn_count = 0
+	if timer:
+		timer.start()
 		spawn_enemy()
+		print("Spawner started: Spawning 5 rounds.")
 
 func spawn_enemy():
-	if enemy_scene == null:
-		print("Error: No Enemy Scene assigned to Spawner!")
+	if not active or enemy_scene == null: 
 		return
 		
 	var enemy = enemy_scene.instantiate()
-	var spawn_pos = left_spawn.global_position if randf() > 0.5 else right_spawn.global_position
+	enemy.global_position = global_position 
+	get_parent().add_child(enemy)
 	
-	# Add tiny random offset to prevent physics engine overlap explosions
-	spawn_pos.x += randf_range(-5, 5)
-	spawn_pos.y -= randf_range(2, 10)
+	spawn_count += 1
 	
-	enemy.global_position = spawn_pos
-	add_child(enemy)
-	
-	current_enemies += 1
-	total_spawned_this_round += 1
+	if spawn_count >= max_spawns:
+		stop_spawning()
 
-func enemy_defeated():
-	current_enemies -= 1
+func stop_spawning():
+	active = false
+	if timer:
+		timer.stop()
 	
-	# Transition to next round
-	if total_spawned_this_round >= enemies_per_round and current_enemies <= 0:
-		next_round()
+	# Find the UI and trigger the victory button
+	var ui = get_tree().root.find_child("DialogueUI", true, false)
+	if ui:
+		ui.show_next_stage_button()
+	else:
+		print("ERROR: Spawner could not find DialogueUI to trigger the next stage button!")
 
-func next_round():
-	if current_round < max_rounds:
-		current_round += 1
-		total_spawned_this_round = 0
-		print("Starting Round: ", current_round)
+func _on_timer_timeout():
+	spawn_enemy()

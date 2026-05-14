@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 const SPEED = 400.0
-const JUMP_VELOCITY = -300.0
+const JUMP_VELOCITY = -500.0
 const SWING_FORCE = 600.0
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
@@ -10,18 +10,31 @@ const SWING_FORCE = 600.0
 var combo_count = 0
 var attack_requested = false
 var is_hit = false
-var health = 1
+var health = 10
+var is_talking = false # Stops movement during NPC talk
 
 func _ready():
 	add_to_group("player")
 
 func _physics_process(delta: float) -> void:
-	if health <= 0:
+	# --- DIALOGUE & DEATH GATE ---
+	if health <= 0 or is_talking:
+		velocity.x = 0
+		# Apply gravity so you don't float if dialogue starts mid-air
+		if not is_on_floor():
+			velocity += get_gravity() * delta
+		
+		if health <= 0: return
+		
+		# If just talking, play idle and stop processing input
+		animated_sprite_2d.play("Idle_Animation")
+		move_and_slide()
 		return
 
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
+	# --- INPUTS ---
 	if Input.is_action_just_pressed("jump") and is_on_floor() and not is_hit:
 		velocity.y = JUMP_VELOCITY
 	
@@ -33,6 +46,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("attack") and not is_hit:
 		attack_requested = true
 
+	# --- ATTACK SYSTEM ---
 	if attack_requested and not is_hit:
 		check_for_hit()
 		if combo_count == 0:
@@ -48,6 +62,7 @@ func _physics_process(delta: float) -> void:
 
 	var is_attacking = animated_sprite_2d.animation == "attack_1" or animated_sprite_2d.animation == "attack_2"
 
+	# --- ANIMATION & MOVEMENT STATE MACHINE ---
 	if is_hit:
 		animated_sprite_2d.play("take_hit")
 		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
@@ -93,32 +108,24 @@ func hit():
 	is_hit = true
 	combo_count = 0
 	attack_requested = false
-	
 	if health <= 0:
 		die()
 	else:
 		animated_sprite_2d.play("take_hit")
 
 func die():
-	# 1. Play death animation
 	animated_sprite_2d.play("death_animation")
-	
-	# 2. Disable movement and physics
 	set_physics_process(false)
 	collision_layer = 0
-	collision_mask = 0
 	
-	# 3. Find and animate the UI
 	var death_overlay = get_tree().root.find_child("DeathUI", true, false)
 	if death_overlay:
 		var rect = death_overlay.get_node_or_null("ColorRect")
 		death_overlay.show()
-		
 		if rect:
 			rect.modulate.a = 0
 			rect.scale = Vector2(0.5, 0.5)
-			rect.pivot_offset = rect.size / 2 # Ensure zoom is centered
-			
+			rect.pivot_offset = rect.size / 2
 			var tween = get_tree().create_tween().set_parallel(true)
 			tween.tween_property(rect, "modulate:a", 1.0, 0.8)
 			tween.tween_property(rect, "scale", Vector2(1.0, 1.0), 0.8).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)

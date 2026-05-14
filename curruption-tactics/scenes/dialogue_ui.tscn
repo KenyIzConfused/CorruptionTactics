@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://dwhwocatc1cmg"]
+
+[ext_resource type="Script" uid="uid://8xd1h03oh0x4" path="res://scenes/dialogue_ui.gd" id="1_dwk8m"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dwk8m"]
+font_size = 40
+
+[node name="DialogueUI" type="CanvasLayer" unique_id=1810048224]
+process_mode = 3
+script = ExtResource("1_dwk8m")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1537595098]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -156.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="DialogueText" type="Label" parent="Panel" unique_id=356677636]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_dwk8m")
+
+[node name="NextButton" type="Button" parent="Panel/DialogueText" unique_id=1397881290]
+process_mode = 3
+layout_mode = 0
+offset_left = 1078.0
+offset_top = 54.0
+offset_right = 1127.0
+offset_bottom = 85.0
+text = "NEXT"
+
+[node name="NextStageButton" type="Button" parent="Panel" unique_id=1966951392]
+visible = false
+layout_mode = 2
+text = "NEXT STAGE"
+
+[connection signal="pressed" from="Panel/DialogueText/NextButton" to="." method="_on_next_button_pressed"]
+[connection signal="pressed" from="Panel/NextStageButton" to="." method="_on_next_stage_button_pressed"]

@@ -2,22 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://ceprflbivawa7" path="res://characters/CROC.png" id="1_tn375"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_txc13"]
-atlas = ExtResource("1_tn375")
-region = Rect2(0, 36, 18, 18)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_slxaw"]
-atlas = ExtResource("1_tn375")
-region = Rect2(18, 36, 18, 18)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ev26g"]
-atlas = ExtResource("1_tn375")
-region = Rect2(36, 36, 18, 18)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_o6ovy"]
-atlas = ExtResource("1_tn375")
-region = Rect2(54, 36, 18, 18)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_keypi"]
 atlas = ExtResource("1_tn375")
 region = Rect2(0, 0, 18, 18)
@@ -50,25 +34,24 @@ region = Rect2(36, 18, 18, 18)
 atlas = ExtResource("1_tn375")
 region = Rect2(54, 18, 18, 18)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_txc13"]
+atlas = ExtResource("1_tn375")
+region = Rect2(0, 36, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_slxaw"]
+atlas = ExtResource("1_tn375")
+region = Rect2(18, 36, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ev26g"]
+atlas = ExtResource("1_tn375")
+region = Rect2(36, 36, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o6ovy"]
+atlas = ExtResource("1_tn375")
+region = Rect2(54, 36, 18, 18)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_1ogoj"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_txc13")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_slxaw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ev26g")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_o6ovy")
-}],
-"loop": true,
-"name": &"attack",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_keypi")
@@ -83,7 +66,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_c7sqw")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"Idle_animation",
 "speed": 3.0
 }, {
 "frames": [{
@@ -100,7 +83,24 @@ animations = [{
 "texture": SubResource("AtlasTexture_sjanw")
 }],
 "loop": true,
-"name": &"walk",
+"name": &"Run_Animation",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_txc13")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_slxaw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ev26g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o6ovy")
+}],
+"loop": true,
+"name": &"attack_animation",
 "speed": 5.0
 }]
 
@@ -110,7 +110,7 @@ animations = [{
 position = Vector2(-1, -15)
 scale = Vector2(1.5886922, 1.6328809)
 sprite_frames = SubResource("SpriteFrames_1ogoj")
-animation = &"attack"
-frame_progress = 0.3344364
+animation = &"Run_Animation"
+autoplay = "Idle_animation"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1066269110]

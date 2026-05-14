@@ -1,11 +1,14 @@
 [gd_scene format=4 uid="uid://cpo68e6t262qu"]
 
 [ext_resource type="Texture2D" uid="uid://cn3q6dees88n7" path="res://bg/18429ada-2778-40d6-9c93-5cff16ffd87b.jpg" id="1_7f24x"]
+[ext_resource type="Script" uid="uid://d3swy1yypuaho" path="res://scenes/npc.gd" id="1_31osd"]
 [ext_resource type="Texture2D" uid="uid://chva1dahw6r1h" path="res://assets/Sidescroller Shooter - Central City/Sidescroller Shooter - Central City/Assets/Tiles.png" id="2_b7brf"]
 [ext_resource type="Texture2D" uid="uid://chjkkaaj4h1k0" path="res://assets/Sidescroller Shooter - Central City/Sidescroller Shooter - Central City/Assets/Buildings.png" id="3_31osd"]
 [ext_resource type="Texture2D" uid="uid://cgm5hv3jb0usf" path="res://assets/Sidescroller Shooter - Central City/Sidescroller Shooter - Central City/Assets/Props-01.png" id="4_xtsva"]
 [ext_resource type="PackedScene" uid="uid://cx4q5odg4sxch" path="res://scenes/player.tscn" id="5_4s2u1"]
-[ext_resource type="AudioStream" uid="uid://dx6cieyxnxlxr" path="res://Music/Steel_and_Spice.mp3" id="6_v0jex"]
+[ext_resource type="AudioStream" uid="uid://bqpaskhtkmgr5" path="res://Music/Blades_in_the_Grass.mp3" id="6_ctdtf"]
+[ext_resource type="PackedScene" uid="uid://dl8va2yaoujnd" path="res://scenes/npc.tscn" id="7_31osd"]
+[ext_resource type="PackedScene" uid="uid://dwhwocatc1cmg" path="res://scenes/dialogue_ui.tscn" id="9_4s2u1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_walpe"]
 texture = ExtResource("2_b7brf")
@@ -519,6 +522,7 @@ sources/2 = SubResource("TileSetAtlasSource_h0efe")
 
 [node name="Battleground" type="Node2D" unique_id=1148943230]
 position = Vector2(149, 16)
+script = ExtResource("1_31osd")
 
 [node name="Map" type="Node2D" parent="." unique_id=861434783]
 y_sort_enabled = true
@@ -545,11 +549,11 @@ tile_map_data = PackedByteArray("AAAFAB0AAAAFAAcAAAAGAB0AAAAEAAcAAAAEAB0AAAAEAAc
 tile_set = SubResource("TileSet_bkg3l")
 
 [node name="Player" parent="." unique_id=1360157231 groups=["player"] instance=ExtResource("5_4s2u1")]
-position = Vector2(122, 412.00003)
+position = Vector2(-24, 382.00003)
 scale = Vector2(3, 3.2216315)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=2119222063]
-stream = ExtResource("6_v0jex")
+stream = ExtResource("6_ctdtf")
 autoplay = true
 parameters/looping = true
 
@@ -557,3 +561,8 @@ parameters/looping = true
 position = Vector2(415, 302)
 scale = Vector2(0.19456771, 0.37707293)
 limit_enabled = false
+
+[node name="DialogueUI" parent="." unique_id=1810048224 instance=ExtResource("9_4s2u1")]
+
+[node name="NPC" parent="." unique_id=1007625555 instance=ExtResource("7_31osd")]
+position = Vector2(855, 529)
