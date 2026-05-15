@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 # --- BOSS STATS ---
 @export var speed: float = 220.0       
-@export var health: int = 1        
+@export var health: int = 1000        
 @export var normal_attack_dist: float = 80.0  
 @export var lightning_attack_dist: float = 150.0 
 @export var light_attack_dist: float = 400.0 
