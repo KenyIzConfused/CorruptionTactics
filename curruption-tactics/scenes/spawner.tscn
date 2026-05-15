@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://7olcrk7vkl4q"]
+
+[ext_resource type="Script" uid="uid://b00k2loypq1p1" path="res://scenes/spawner.gd" id="1_2vbf6"]
+[ext_resource type="PackedScene" uid="uid://hb1qu6qnob5f" path="res://scenes/pig.tscn" id="2_ik2nu"]
+
+[node name="Spawner" type="Node2D" unique_id=1511384262]
+script = ExtResource("1_2vbf6")
+enemy_scene = ExtResource("2_ik2nu")
+
+[node name="Timer" type="Timer" parent="." unique_id=1502448374]

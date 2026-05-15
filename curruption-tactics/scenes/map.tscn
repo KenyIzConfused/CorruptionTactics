@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cebiily2pa310"]
+
+[ext_resource type="AudioStream" uid="uid://bqpaskhtkmgr5" path="res://Music/Blades_in_the_Grass.mp3" id="1_4xfga"]
+
+[node name="Map" type="Node2D" unique_id=1095154773]
+
+[node name="Background" type="Node2D" parent="." unique_id=642670536]
+
+[node name="Ground" type="StaticBody2D" parent="." unique_id=1889489611]
+
+[node name="Floor" type="Sprite2D" parent="Ground" unique_id=522207491]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=1886077608]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=460631651]
+stream = ExtResource("1_4xfga")
+autoplay = true
+parameters/looping = true
