@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dwhwocatc1cmg" path="res://scenes/dialogue_ui.tscn" id="9_4s2u1"]
 [ext_resource type="PackedScene" uid="uid://7olcrk7vkl4q" path="res://scenes/spawner.tscn" id="10_4s2u1"]
 [ext_resource type="PackedScene" uid="uid://b7xuyth2yldtj" path="res://scenes/Croc.tscn" id="11_v0jex"]
+[ext_resource type="Script" uid="uid://5qbne7tmr272" path="res://scenes/death_ui.gd" id="12_v0jex"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_walpe"]
 texture = ExtResource("2_b7brf")
@@ -572,3 +573,36 @@ position = Vector2(855, 529)
 [node name="Spawner" parent="." unique_id=1511384262 instance=ExtResource("10_4s2u1")]
 position = Vector2(-229, 479)
 enemy_scene = ExtResource("11_v0jex")
+
+[node name="DeathUI" type="CanvasLayer" parent="." unique_id=1720736200]
+process_mode = 3
+layer = 10
+script = ExtResource("12_v0jex")
+
+[node name="ColorRect" type="ColorRect" parent="DeathUI" unique_id=1918678140]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(575.19794, 11.422901)
+color = Color(0.5019608, 0, 0.19607843, 1)
+
+[node name="Button" type="Button" parent="DeathUI" unique_id=300579643]
+offset_left = 469.0
+offset_top = 293.0
+offset_right = 544.0
+offset_bottom = 324.0
+scale = Vector2(3.551002, 4.182833)
+text = "RESTART"
+
+[node name="Label" type="Label" parent="DeathUI" unique_id=758694522]
+offset_left = 316.0
+offset_top = 54.0
+offset_right = 392.0
+offset_bottom = 77.0
+scale = Vector2(7.326703, 11.425819)
+text = "YOU DIED"
+
+[connection signal="pressed" from="DeathUI/Button" to="DeathUI" method="_on_restart_button_pressed"]

@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var enemy_scene: PackedScene 
-@export var max_spawns: int = 5 
+@export var max_spawns: int = 10 
 @onready var timer = $Timer
 
 var spawn_count: int = 0

@@ -11,30 +11,34 @@ var combo_count = 0
 var attack_requested = false
 var is_hit = false
 var health = 10
-var is_talking = false # Stops movement during NPC talk
+var is_talking = false 
 
 func _ready():
 	add_to_group("player")
 
 func _physics_process(delta: float) -> void:
-	# --- DIALOGUE & DEATH GATE ---
+	# Fall-off map death logic
+	if global_position.y > 1500 and health > 0:
+		health = 0
+		die()
+
+	# Stop all input/movement during dialogue or death
 	if health <= 0 or is_talking:
 		velocity.x = 0
-		# Apply gravity so you don't float if dialogue starts mid-air
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 		
 		if health <= 0: return
 		
-		# If just talking, play idle and stop processing input
 		animated_sprite_2d.play("Idle_Animation")
 		move_and_slide()
 		return
 
+	# Add gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# --- INPUTS ---
+	# Handle Jump
 	if Input.is_action_just_pressed("jump") and is_on_floor() and not is_hit:
 		velocity.y = JUMP_VELOCITY
 	
@@ -43,6 +47,7 @@ func _physics_process(delta: float) -> void:
 	if is_hit and not animated_sprite_2d.is_playing():
 		is_hit = false
 
+	# Attack Input
 	if Input.is_action_just_pressed("attack") and not is_hit:
 		attack_requested = true
 
@@ -62,7 +67,7 @@ func _physics_process(delta: float) -> void:
 
 	var is_attacking = animated_sprite_2d.animation == "attack_1" or animated_sprite_2d.animation == "attack_2"
 
-	# --- ANIMATION & MOVEMENT STATE MACHINE ---
+	# --- ANIMATION & MOVEMENT ---
 	if is_hit:
 		animated_sprite_2d.play("take_hit")
 		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
@@ -91,6 +96,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 	else:
+		# Slow down movement during attack swing
 		velocity.x = move_toward(velocity.x, 0, 15.0)
 
 	move_and_slide()
@@ -113,19 +119,31 @@ func hit():
 	else:
 		animated_sprite_2d.play("take_hit")
 
-func die():
-	animated_sprite_2d.play("death_animation")
+# THIS IS CALLED BY THE NPC
+func die_from_betrayal():
+	health = 0
+	is_talking = true
 	set_physics_process(false)
 	collision_layer = 0
+	collision_mask = 0
 	
-	var death_overlay = get_tree().root.find_child("DeathUI", true, false)
-	if death_overlay:
-		var rect = death_overlay.get_node_or_null("ColorRect")
-		death_overlay.show()
-		if rect:
-			rect.modulate.a = 0
-			rect.scale = Vector2(0.5, 0.5)
-			rect.pivot_offset = rect.size / 2
-			var tween = get_tree().create_tween().set_parallel(true)
-			tween.tween_property(rect, "modulate:a", 1.0, 0.8)
-			tween.tween_property(rect, "scale", Vector2(1.0, 1.0), 0.8).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	if animated_sprite_2d:
+		animated_sprite_2d.play("death_animation")
+	
+	var btn = get_tree().root.find_child("*Restart*", true, false)
+	if btn: btn.hide()
+	
+	await get_tree().create_timer(1.5).timeout
+	var ui = get_tree().root.find_child("DialogueUI", true, false)
+	if ui:
+		ui.start_dialogue(self, self, ["YOU WIN?"] as Array[String])
+		await get_tree().create_timer(4.0).timeout
+	
+	get_tree().quit()
+
+func die():
+	health = 0
+	set_physics_process(false)
+	animated_sprite_2d.play("death_animation")
+	var ui_node = get_tree().root.find_child("DeathUI", true, false)
+	if ui_node: ui_node.show()

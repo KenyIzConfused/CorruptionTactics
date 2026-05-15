@@ -105,7 +105,12 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_txc13"]
+height = 80.0
+
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1933444622]
+scale = Vector2(2, 2)
+collision_layer = 2
 script = ExtResource("1_txc13")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1362373652]
@@ -116,3 +121,5 @@ animation = &"attack_animation"
 autoplay = "Idle_animation"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1066269110]
+position = Vector2(1, -40)
+shape = SubResource("CapsuleShape2D_txc13")
