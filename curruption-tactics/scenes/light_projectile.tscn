@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://bu8k3u8r3nnv8"]
+
+[ext_resource type="Script" uid="uid://ohobvdkhekjl" path="res://scenes/light_projectile.gd" id="1_8vkf2"]
+[ext_resource type="Texture2D" uid="uid://d26a3q1vfgdgl" path="res://characters/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Charge.png" id="1_b6b5f"]
+[ext_resource type="Script" uid="uid://bahdfls4hic66" path="res://scenes/visible_on_screen_notifier_2d.gd" id="3_1k338"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vkf2"]
+atlas = ExtResource("1_b6b5f")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1k338"]
+atlas = ExtResource("1_b6b5f")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_famqg"]
+atlas = ExtResource("1_b6b5f")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_33gbp"]
+atlas = ExtResource("1_b6b5f")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dk7n6"]
+atlas = ExtResource("1_b6b5f")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nteo7"]
+atlas = ExtResource("1_b6b5f")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y83k4"]
+atlas = ExtResource("1_b6b5f")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rodjo"]
+atlas = ExtResource("1_b6b5f")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fw332"]
+atlas = ExtResource("1_b6b5f")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vtll"]
+atlas = ExtResource("1_b6b5f")
+region = Rect2(576, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tksv3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8vkf2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1k338")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_famqg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_33gbp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dk7n6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nteo7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y83k4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rodjo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fw332")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8vtll")
+}],
+"loop": true,
+"name": &"Light_Projectile",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wn1si"]
+radius = 17.029387
+
+[node name="LightProjectile" type="Area2D" unique_id=1092678547]
+script = ExtResource("1_8vkf2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=714703434]
+position = Vector2(-2, -19)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_tksv3")
+animation = &"Light_Projectile"
+frame_progress = 0.65361047
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1406391741]
+position = Vector2(1, -19)
+shape = SubResource("CircleShape2D_wn1si")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1945462174]
+position = Vector2(1, -19)
+script = ExtResource("3_1k338")
+
+[connection signal="body_entered" from="." to="VisibleOnScreenNotifier2D" method="_on_light_projectile_body_entered"]

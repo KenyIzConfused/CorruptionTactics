@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://diuyt1uyjp5d6"]
 
 [ext_resource type="Texture2D" uid="uid://bfxlxi0da8mdi" path="res://characters/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Idle.png" id="1_e54pg"]
+[ext_resource type="Script" uid="uid://oy6wttkqp8v" path="res://scenes/bossenemy.gd" id="1_uua0a"]
 [ext_resource type="Texture2D" uid="uid://cfnxrhanp504w" path="res://characters/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Run.png" id="2_47cqh"]
+[ext_resource type="PackedScene" uid="uid://bu8k3u8r3nnv8" path="res://scenes/light_projectile.tscn" id="2_orvmm"]
 [ext_resource type="Texture2D" uid="uid://b0u0wymtvced" path="res://characters/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Walk.png" id="3_t5rre"]
 [ext_resource type="Texture2D" uid="uid://cmdxksb1h1ljl" path="res://characters/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Attack_1.png" id="4_qxl03"]
 [ext_resource type="Texture2D" uid="uid://dh7wco6duwcu5" path="res://characters/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Attack_2.png" id="5_uua0a"]
@@ -564,7 +566,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_0cha5")
 }],
 "loop": false,
-"name": &"ligthing_animation",
+"name": &"lightning_animation",
 "speed": 10.0
 }]
 
@@ -573,12 +575,13 @@ height = 60.0
 
 [node name="Boss" type="CharacterBody2D" unique_id=1683306133]
 scale = Vector2(4, 4)
-collision_layer = 2
+script = ExtResource("1_uua0a")
+light_projectile = ExtResource("2_orvmm")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1436851009]
-position = Vector2(11, -63)
+position = Vector2(10.25, -63)
 sprite_frames = SubResource("SpriteFrames_y677p")
-animation = &"Idle_animation"
+animation = &"light_animation"
 autoplay = "Idle_animation"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1529994804]
