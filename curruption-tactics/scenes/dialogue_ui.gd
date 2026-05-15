@@ -85,6 +85,6 @@ func _on_next_stage_button_pressed():
 	get_tree().paused = false 
 	var path = get_tree().current_scene.scene_file_path.to_lower()
 	if "battleground2" in path:
-		get_tree().change_scene_to_file("res://scenes/final_level.tscn")
+		get_tree().change_scene_to_file("res://scenes/boss.tscn")
 	else:
 		get_tree().change_scene_to_file("res://scenes/battleground2.tscn")

@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 const SPEED = 400.0
-const JUMP_VELOCITY = -500.0
+const JUMP_VELOCITY = -700.0
 const SWING_FORCE = 600.0
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
@@ -10,7 +10,7 @@ const SWING_FORCE = 600.0
 var combo_count = 0
 var attack_requested = false
 var is_hit = false
-var health = 10
+var health = 50
 var is_talking = false # Stops movement during NPC talk
 
 func _ready():
